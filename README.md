@@ -1,2 +1,3 @@
 # Fantacalcio
-Classifica avvulsa degli aspect points al Fantacalcio
+
+Classifica avulsa degli expected points al Fantacalcio
