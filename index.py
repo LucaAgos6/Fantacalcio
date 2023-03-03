@@ -112,15 +112,40 @@ for i, row in df.iterrows():
         for j in range(3):
             exp4 += punti(goal4, gol(df.loc[i+1+j][2]))
 
+        # PL5
+        for j in range(3):
+            exp5 += punti(goal5, gol(df.loc[i+2+j][3]))
+        for j in range(4):
+            exp5 += punti(goal5, gol(df.loc[i+1+j][2]))
+
+        # PL6
+        for j in range(2):
+            exp6 += punti(goal6, gol(df.loc[i+3+j][3]))
+        exp6 += punti(goal6, gol(df.loc[i+1][3]))
+        for j in range(4):
+            exp6 += punti(goal6, gol(df.loc[i+1+j][2]))
+
+        # PL7
+        for j in range(2):
+            exp7 += punti(goal7, gol(df.loc[i+1+j][3]))
+        exp7 += punti(goal7, gol(df.loc[i+4][3]))
+        for j in range(4):
+            exp7 += punti(goal7, gol(df.loc[i+1+j][2]))
+
+        # PL8
+        for j in range(3):
+            exp8 += punti(goal8, gol(df.loc[i+1+j][3]))
+        for j in range(4):
+            exp8 += punti(goal8, gol(df.loc[i+1+j][2]))
+
         players = {player1: round(exp1/7, 2),
                    player2: round(exp2/7, 2),
                    player3: round(exp3/7, 2),
                    player4: round(exp4/7, 2),
-                   #    player5: round(exp5/7, 2),
-                   #    player6: round(exp6/7, 2),
-                   #    player7: round(exp7/7, 2),
-                   #    player8: round(exp8/7, 2)
-                   }
+                   player5: round(exp5/7, 2),
+                   player6: round(exp6/7, 2),
+                   player7: round(exp7/7, 2),
+                   player8: round(exp8/7, 2)}
 
         giornate.append({numGiornata: players})
 
@@ -175,15 +200,78 @@ for i, row in df.iterrows():
         for j in range(3):
             exp4 += punti(goal4, gol(df.loc[i+1+j][7]))
 
+        # PL5
+        for j in range(3):
+            exp5 += punti(goal5, gol(df.loc[i+2+j][8]))
+        for j in range(4):
+            exp5 += punti(goal5, gol(df.loc[i+1+j][7]))
+
+        # PL6
+        for j in range(2):
+            exp6 += punti(goal6, gol(df.loc[i+3+j][8]))
+        exp6 += punti(goal6, gol(df.loc[i+1][8]))
+        for j in range(4):
+            exp6 += punti(goal6, gol(df.loc[i+1+j][7]))
+
+        # PL7
+        for j in range(2):
+            exp7 += punti(goal7, gol(df.loc[i+1+j][8]))
+        exp7 += punti(goal7, gol(df.loc[i+4][8]))
+        for j in range(4):
+            exp7 += punti(goal7, gol(df.loc[i+1+j][7]))
+
+        # PL8
+        for j in range(3):
+            exp8 += punti(goal8, gol(df.loc[i+1+j][8]))
+        for j in range(4):
+            exp8 += punti(goal8, gol(df.loc[i+1+j][7]))
+
         players = {player1: round(exp1/7, 2),
                    player2: round(exp2/7, 2),
                    player3: round(exp3/7, 2),
                    player4: round(exp4/7, 2),
-                   #    player5: round(exp5/7, 2),
-                   #    player6: round(exp6/7, 2),
-                   #    player7: round(exp7/7, 2),
-                   #    player8: round(exp8/7, 2)
+                   player5: round(exp5/7, 2),
+                   player6: round(exp6/7, 2),
+                   player7: round(exp7/7, 2),
+                   player8: round(exp8/7, 2)
                    }
 
         giornate.append({numGiornata: players})
-print(giornate)
+
+for item in giornate:
+    for keyItem in item:
+        for key in item[keyItem]:
+            if key == carli:
+                carliexp += item[keyItem][key]
+            if key == ambro:
+                ambroexp += item[keyItem][key]
+            if key == furia:
+                furiaexp += item[keyItem][key]
+            if key == steppa:
+                steppaexp += item[keyItem][key]
+            if key == leo:
+                leoexp += item[keyItem][key]
+            if key == boz:
+                bozexp += item[keyItem][key]
+            if key == caccia:
+                cacciaexp += item[keyItem][key]
+            if key == luca:
+                lucaexp += item[keyItem][key]
+
+classifica = [[carli, carliexp],
+              [ambro, ambroexp],
+              [furia, furiaexp],
+              [steppa, steppaexp],
+              [leo, leoexp],
+              [boz, bozexp],
+              [caccia, cacciaexp],
+              [luca, lucaexp]]
+
+dfClassifica = pd.DataFrame(classifica)
+header = ["Nome", "Punti attesi"]
+dfClassifica.columns = header
+dfClassifica.sort_values(by=["Punti attesi"], 
+                         ascending=False, 
+                         inplace=True, 
+                           ignore_index=True)
+print(dfClassifica)
