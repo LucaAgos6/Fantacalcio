@@ -1,6 +1,7 @@
+import plotly.graph_objects as go
 import pandas as pd
 
-df = pd.read_excel("Input\Calendario_Cocazero111.xlsx")  
+df = pd.read_excel("Input\Calendario_Cocazero111.xlsx")
 
 
 def punti(punt1, punt2):
@@ -147,17 +148,61 @@ for item in pointsGiornate:
 dfCl = pd.DataFrame({"Classifica meritata": playerName,
                      "Punti meritati": playerExp,
                      "Punti reali": playerPoint})
+dfCl["Punti meritati"] = round(dfCl["Punti meritati"], 2)
 dfCl["Punti persi/rubati"] = dfCl["Punti reali"] - dfCl["Punti meritati"]
+dfCl["Punti persi/rubati"] = round(dfCl["Punti persi/rubati"], 2)
 dfCl.sort_values(by=["Punti reali"],
                  ascending=False,
                  inplace=True,
                  ignore_index=True)
-dfCl["Classifica reale"] = new_header[:-2]
+dfCl["Posizione reale"] = new_header[:-2]
 dfCl.sort_values(by=["Punti meritati"],
                  ascending=False,
                  inplace=True,
                  ignore_index=True)
-dfCl.insert(0, "Posizione", new_header[:-2])
-dfCl["Posizioni perse/rubate"] = dfCl["Posizione"] - dfCl["Classifica reale"]
+dfCl.insert(0, "Posizione meritata", new_header[:-2])
+dfCl["Posizioni perse/rubate"] = dfCl["Posizione meritata"] - \
+    dfCl["Posizione reale"]
 
 print(dfCl)
+
+colorsPunti = []
+colorsPosizioni = []
+l = "lavender"
+
+for c in dfCl["Punti persi/rubati"]:
+    if c > 5:
+        colorsPunti.append("#fc0808")
+    elif c > 2.5:
+        colorsPunti.append("#ff4a4a")
+    elif c > 0:
+        colorsPunti.append("#faafaf")
+    elif c > -2.5:
+        colorsPunti.append("#b0faaf")
+    elif c > -5:
+        colorsPunti.append("#5dfa5a")
+    elif c <= -5:
+        colorsPunti.append("#06d602")
+
+for c in dfCl["Posizioni perse/rubate"]:
+    if c > 2:
+        colorsPosizioni.append("#fc0808")
+    elif c > 1:
+        colorsPosizioni.append("#ff4a4a")
+    elif c > 0:
+        colorsPosizioni.append("#faafaf")
+    elif c == 0:
+        colorsPosizioni.append("lavender")
+    elif c > -1:
+        colorsPosizioni.append("#b0faaf")
+    elif c > -2:
+        colorsPosizioni.append("#5dfa5a")
+    elif c <= -2:
+        colorsPosizioni.append("#06d602")
+
+
+fig = go.Figure(data=[go.Table(header=dict(values=list(dfCl.columns),
+                                           fill_color="paleturquoise"),
+                               cells=dict(values=[dfCl[col] for col in dfCl.columns],
+                                          fill=dict(color=[l, l, l, l, colorsPunti, l, colorsPosizioni])))])
+fig.show()
