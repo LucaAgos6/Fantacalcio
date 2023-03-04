@@ -1,24 +1,6 @@
 import pandas as pd
 
-df = pd.read_excel("Input\Calendario_Cocazero111.xlsx")
-
-luca = "Herta mpone"
-carli = "??ANKONDORICACIVITASFIDEI??"
-leo = "I giordani"
-ambro = "Spal Letti"
-boz = "Rooney Tunes"
-caccia = "Club Atletico Caccias Old Boys"
-steppa = "Panita Team"
-furia = "Tammy Team"
-
-lucaexp = 0
-carliexp = 0
-leoexp = 0
-ambroexp = 0
-bozexp = 0
-cacciaexp = 0
-steppaexp = 0
-furiaexp = 0
+df = pd.read_excel("Input\Calendario_Cocazero111.xlsx")  
 
 
 def punti(punt1, punt2):
@@ -49,10 +31,27 @@ def gol(punti):
         return 7
     elif punti < 98:
         return 8
-    elif punti > 98:
+    elif punti < 104:
         return 9
-    elif punti > 104:
+    elif punti >= 104:
         return 10
+
+
+def makePointsLists(listaGol):
+
+    listaExp = [0, 0, 0, 0, 0, 0, 0, 0]
+    listaPoints = [0, 0, 0, 0, 0, 0, 0, 0]
+
+    for j in range(len(listaGol)):
+        for k in range(len(listaGol)):
+            if j != k:
+                listaExp[j] += punti(listaGol[j], listaGol[k])
+        if j < 4:
+            listaPoints[j] = punti(listaGol[j], listaGol[j+4])
+        elif j >= 4:
+            listaPoints[j] = punti(listaGol[j], listaGol[j-4])
+
+    return listaExp, listaPoints
 
 
 del df[df.columns[5]]
@@ -60,7 +59,8 @@ df = df[2:]
 new_header = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 df.columns = new_header
 
-giornate = []
+expGiornate = []
+pointsGiornate = []
 
 for i, row in df.iterrows():
 
@@ -68,86 +68,26 @@ for i, row in df.iterrows():
     if "Giornata" in row[1] and df.loc[i+1][5] != "-":
 
         numGiornata = row[1].split(" ")[0]
-        player1 = df.loc[i+1][1]
-        player2 = df.loc[i+2][1]
-        player3 = df.loc[i+3][1]
-        player4 = df.loc[i+4][1]
-        player5 = df.loc[i+1][4]
-        player6 = df.loc[i+2][4]
-        player7 = df.loc[i+3][4]
-        player8 = df.loc[i+4][4]
-        goal1 = gol(df.loc[i+1][2])
-        goal2 = gol(df.loc[i+2][2])
-        goal3 = gol(df.loc[i+3][2])
-        goal4 = gol(df.loc[i+4][2])
-        goal5 = gol(df.loc[i+1][3])
-        goal6 = gol(df.loc[i+2][3])
-        goal7 = gol(df.loc[i+3][3])
-        goal8 = gol(df.loc[i+4][3])
-        exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8 = 0, 0, 0, 0, 0, 0, 0, 0
 
-        # PL1
-        for j in range(4):
-            exp1 += punti(goal1, gol(df.loc[i+1+j][3]))
-        for j in range(3):
-            exp1 += punti(goal1, gol(df.loc[i+2+j][2]))
+        listaGol = [gol(df.loc[i+1][2]), gol(df.loc[i+2][2]),
+                    gol(df.loc[i+3][2]), gol(df.loc[i+4][2]),
+                    gol(df.loc[i+1][3]), gol(df.loc[i+2][3]),
+                    gol(df.loc[i+3][3]), gol(df.loc[i+4][3])]
 
-        # PL2
-        for j in range(4):
-            exp2 += punti(goal2, gol(df.loc[i+1+j][3]))
-        for j in range(2):
-            exp2 += punti(goal2, gol(df.loc[i+3+j][2]))
-        exp2 += punti(goal2, gol(df.loc[i+1][2]))
+        listaExp, listaPoints = makePointsLists(listaGol)
 
-        # PL3
-        for j in range(4):
-            exp3 += punti(goal3, gol(df.loc[i+1+j][3]))
-        for j in range(2):
-            exp3 += punti(goal3, gol(df.loc[i+1+j][2]))
-        exp3 += punti(goal3, gol(df.loc[i+4][2]))
+        expPlayers = {}
+        pointsPlayers = {}
 
-        # PL4
-        for j in range(4):
-            exp4 += punti(goal4, gol(df.loc[i+1+j][3]))
-        for j in range(3):
-            exp4 += punti(goal4, gol(df.loc[i+1+j][2]))
+        for x in range(4):
+            expPlayers[df.loc[i+1+x][1]] = round(listaExp[x]/7, 2)
+            pointsPlayers[df.loc[i+1+x][1]] = listaPoints[x]
+        for x in range(4):
+            expPlayers[df.loc[i+1+x][4]] = round(listaExp[x+4]/7, 2)
+            pointsPlayers[df.loc[i+1+x][4]] = listaPoints[x+4]
 
-        # PL5
-        for j in range(3):
-            exp5 += punti(goal5, gol(df.loc[i+2+j][3]))
-        for j in range(4):
-            exp5 += punti(goal5, gol(df.loc[i+1+j][2]))
-
-        # PL6
-        for j in range(2):
-            exp6 += punti(goal6, gol(df.loc[i+3+j][3]))
-        exp6 += punti(goal6, gol(df.loc[i+1][3]))
-        for j in range(4):
-            exp6 += punti(goal6, gol(df.loc[i+1+j][2]))
-
-        # PL7
-        for j in range(2):
-            exp7 += punti(goal7, gol(df.loc[i+1+j][3]))
-        exp7 += punti(goal7, gol(df.loc[i+4][3]))
-        for j in range(4):
-            exp7 += punti(goal7, gol(df.loc[i+1+j][2]))
-
-        # PL8
-        for j in range(3):
-            exp8 += punti(goal8, gol(df.loc[i+1+j][3]))
-        for j in range(4):
-            exp8 += punti(goal8, gol(df.loc[i+1+j][2]))
-
-        players = {player1: round(exp1/7, 2),
-                   player2: round(exp2/7, 2),
-                   player3: round(exp3/7, 2),
-                   player4: round(exp4/7, 2),
-                   player5: round(exp5/7, 2),
-                   player6: round(exp6/7, 2),
-                   player7: round(exp7/7, 2),
-                   player8: round(exp8/7, 2)}
-
-        giornate.append({numGiornata: players})
+        expGiornate.append({numGiornata: expPlayers})
+        pointsGiornate.append({numGiornata: pointsPlayers})
 
     # Giornate a destra
     if "Giornata" in str(row[3]) and df.loc[i+1][10] != "-":
@@ -156,122 +96,68 @@ for i, row in df.iterrows():
             break
 
         numGiornata = row[3].split(" ")[0]
-        player1 = df.loc[i+1][6]
-        player2 = df.loc[i+2][6]
-        player3 = df.loc[i+3][6]
-        player4 = df.loc[i+4][6]
-        player5 = df.loc[i+1][9]
-        player6 = df.loc[i+2][9]
-        player7 = df.loc[i+3][9]
-        player8 = df.loc[i+4][9]
-        goal1 = gol(df.loc[i+1][7])
-        goal2 = gol(df.loc[i+2][7])
-        goal3 = gol(df.loc[i+3][7])
-        goal4 = gol(df.loc[i+4][7])
-        goal5 = gol(df.loc[i+1][8])
-        goal6 = gol(df.loc[i+2][8])
-        goal7 = gol(df.loc[i+3][8])
-        goal8 = gol(df.loc[i+4][8])
-        exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8 = 0, 0, 0, 0, 0, 0, 0, 0
 
-        # PL1
-        for j in range(4):
-            exp1 += punti(goal1, gol(df.loc[i+1+j][8]))
-        for j in range(3):
-            exp1 += punti(goal1, gol(df.loc[i+2+j][7]))
+        listaGol = [gol(df.loc[i+1][7]), gol(df.loc[i+2][7]),
+                    gol(df.loc[i+3][7]), gol(df.loc[i+4][7]),
+                    gol(df.loc[i+1][8]), gol(df.loc[i+2][8]),
+                    gol(df.loc[i+3][8]), gol(df.loc[i+4][8])]
 
-        # PL2
-        for j in range(4):
-            exp2 += punti(goal2, gol(df.loc[i+1+j][8]))
-        for j in range(2):
-            exp2 += punti(goal2, gol(df.loc[i+3+j][7]))
-        exp2 += punti(goal2, gol(df.loc[i+1][7]))
+        listaExp, listaPoints = makePointsLists(listaGol)
 
-        # PL3
-        for j in range(4):
-            exp3 += punti(goal3, gol(df.loc[i+1+j][8]))
-        for j in range(2):
-            exp3 += punti(goal3, gol(df.loc[i+1+j][7]))
-        exp3 += punti(goal3, gol(df.loc[i+4][7]))
+        expPlayers = {}
+        pointsPlayers = {}
 
-        # PL4
-        for j in range(4):
-            exp4 += punti(goal4, gol(df.loc[i+1+j][8]))
-        for j in range(3):
-            exp4 += punti(goal4, gol(df.loc[i+1+j][7]))
+        for x in range(4):
+            expPlayers[df.loc[i+1+x][6]] = round(listaExp[x]/7, 2)
+            pointsPlayers[df.loc[i+1+x][6]] = listaPoints[x]
+        for x in range(4):
+            expPlayers[df.loc[i+1+x][9]] = round(listaExp[x+4]/7, 2)
+            pointsPlayers[df.loc[i+1+x][9]] = listaPoints[x+4]
 
-        # PL5
-        for j in range(3):
-            exp5 += punti(goal5, gol(df.loc[i+2+j][8]))
-        for j in range(4):
-            exp5 += punti(goal5, gol(df.loc[i+1+j][7]))
+        expGiornate.append({numGiornata: expPlayers})
+        pointsGiornate.append({numGiornata: pointsPlayers})
 
-        # PL6
-        for j in range(2):
-            exp6 += punti(goal6, gol(df.loc[i+3+j][8]))
-        exp6 += punti(goal6, gol(df.loc[i+1][8]))
-        for j in range(4):
-            exp6 += punti(goal6, gol(df.loc[i+1+j][7]))
+playerName = ["Club Atletico Caccias Old Boys",
+              "??ANKONDORICACIVITASFIDEI??",
+              "Rooney Tunes",
+              "Panita Team",
+              "Herta mpone",
+              "I giordani",
+              "Spal Letti",
+              "Tammy Team"]
 
-        # PL7
-        for j in range(2):
-            exp7 += punti(goal7, gol(df.loc[i+1+j][8]))
-        exp7 += punti(goal7, gol(df.loc[i+4][8]))
-        for j in range(4):
-            exp7 += punti(goal7, gol(df.loc[i+1+j][7]))
+playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
+playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
 
-        # PL8
-        for j in range(3):
-            exp8 += punti(goal8, gol(df.loc[i+1+j][8]))
-        for j in range(4):
-            exp8 += punti(goal8, gol(df.loc[i+1+j][7]))
-
-        players = {player1: round(exp1/7, 2),
-                   player2: round(exp2/7, 2),
-                   player3: round(exp3/7, 2),
-                   player4: round(exp4/7, 2),
-                   player5: round(exp5/7, 2),
-                   player6: round(exp6/7, 2),
-                   player7: round(exp7/7, 2),
-                   player8: round(exp8/7, 2)
-                   }
-
-        giornate.append({numGiornata: players})
-
-for item in giornate:
+for item in expGiornate:
     for keyItem in item:
         for key in item[keyItem]:
-            if key == carli:
-                carliexp += item[keyItem][key]
-            if key == ambro:
-                ambroexp += item[keyItem][key]
-            if key == furia:
-                furiaexp += item[keyItem][key]
-            if key == steppa:
-                steppaexp += item[keyItem][key]
-            if key == leo:
-                leoexp += item[keyItem][key]
-            if key == boz:
-                bozexp += item[keyItem][key]
-            if key == caccia:
-                cacciaexp += item[keyItem][key]
-            if key == luca:
-                lucaexp += item[keyItem][key]
+            for n in range(len(playerName)):
+                if playerName[n] == key:
+                    playerExp[n] += item[keyItem][key]
 
-classifica = [[carli, carliexp],
-              [ambro, ambroexp],
-              [furia, furiaexp],
-              [steppa, steppaexp],
-              [leo, leoexp],
-              [boz, bozexp],
-              [caccia, cacciaexp],
-              [luca, lucaexp]]
+for item in pointsGiornate:
+    for keyItem in item:
+        for key in item[keyItem]:
+            for n in range(len(playerName)):
+                if playerName[n] == key:
+                    playerPoint[n] += item[keyItem][key]
 
-dfClassifica = pd.DataFrame(classifica)
-header = ["Nome", "Punti attesi"]
-dfClassifica.columns = header
-dfClassifica.sort_values(by=["Punti attesi"], 
-                         ascending=False, 
-                         inplace=True, 
-                           ignore_index=True)
-print(dfClassifica)
+
+dfCl = pd.DataFrame({"Classifica meritata": playerName,
+                     "Punti meritati": playerExp,
+                     "Punti reali": playerPoint})
+dfCl["Punti persi/rubati"] = dfCl["Punti reali"] - dfCl["Punti meritati"]
+dfCl.sort_values(by=["Punti reali"],
+                 ascending=False,
+                 inplace=True,
+                 ignore_index=True)
+dfCl["Classifica reale"] = new_header[:-2]
+dfCl.sort_values(by=["Punti meritati"],
+                 ascending=False,
+                 inplace=True,
+                 ignore_index=True)
+dfCl.insert(0, "Posizione", new_header[:-2])
+dfCl["Posizioni perse/rubate"] = dfCl["Posizione"] - dfCl["Classifica reale"]
+
+print(dfCl)
