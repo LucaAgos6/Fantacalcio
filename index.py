@@ -1,7 +1,11 @@
 import plotly.graph_objects as go
+import plotly.subplots as ps
 import pandas as pd
 
-df = pd.read_excel("Input\Calendario_Cocazero111.xlsx")
+from colors import colorPosizioni, colorPosMeritata, colorPosReale, colorPunti
+
+competizione = "Cocazero111"
+df = pd.read_excel(f"Input\Calendario_{competizione}.xlsx")
 
 
 def punti(punt1, punt2):
@@ -62,6 +66,8 @@ df.columns = new_header
 
 expGiornate = []
 pointsGiornate = []
+dfExp = []
+dfReal = []
 
 for i, row in df.iterrows():
 
@@ -88,7 +94,9 @@ for i, row in df.iterrows():
             pointsPlayers[df.loc[i+1+x][4]] = listaPoints[x+4]
 
         expGiornate.append({numGiornata: expPlayers})
+        dfExp.append(expPlayers)
         pointsGiornate.append({numGiornata: pointsPlayers})
+        dfReal.append(pointsPlayers)
 
     # Giornate a destra
     if "Giornata" in str(row[3]) and df.loc[i+1][10] != "-":
@@ -116,7 +124,9 @@ for i, row in df.iterrows():
             pointsPlayers[df.loc[i+1+x][9]] = listaPoints[x+4]
 
         expGiornate.append({numGiornata: expPlayers})
+        dfExp.append(expPlayers)
         pointsGiornate.append({numGiornata: pointsPlayers})
+        dfReal.append(pointsPlayers)
 
 playerName = ["Club Atletico Caccias Old Boys",
               "??ANKONDORICACIVITASFIDEI??",
@@ -161,48 +171,53 @@ dfCl.sort_values(by=["Punti meritati"],
                  inplace=True,
                  ignore_index=True)
 dfCl.insert(0, "Posizione meritata", new_header[:-2])
-dfCl["Posizioni perse/rubate"] = dfCl["Posizione meritata"] - \
-    dfCl["Posizione reale"]
+dfCl["Posizioni perse/rubate"] = dfCl["Posizione meritata"]-dfCl["Posizione reale"]
 
 print(dfCl)
 
-colorsPunti = []
-colorsPosizioni = []
+colorsPunti = colorPunti(dfCl)
+colorsPosizioni = colorPosizioni(dfCl)
+colorsClassReale = colorPosReale(dfCl)
+colorsClassMeritata = colorPosMeritata(dfCl)
 l = "lavender"
 
-for c in dfCl["Punti persi/rubati"]:
-    if c > 5:
-        colorsPunti.append("#fc0808")
-    elif c > 2.5:
-        colorsPunti.append("#ff4a4a")
-    elif c > 0:
-        colorsPunti.append("#faafaf")
-    elif c > -2.5:
-        colorsPunti.append("#b0faaf")
-    elif c > -5:
-        colorsPunti.append("#5dfa5a")
-    elif c <= -5:
-        colorsPunti.append("#06d602")
 
-for c in dfCl["Posizioni perse/rubate"]:
-    if c > 2:
-        colorsPosizioni.append("#fc0808")
-    elif c > 1:
-        colorsPosizioni.append("#ff4a4a")
-    elif c > 0:
-        colorsPosizioni.append("#faafaf")
-    elif c == 0:
-        colorsPosizioni.append("lavender")
-    elif c > -1:
-        colorsPosizioni.append("#b0faaf")
-    elif c > -2:
-        colorsPosizioni.append("#5dfa5a")
-    elif c <= -2:
-        colorsPosizioni.append("#06d602")
+fig = ps.make_subplots(rows=2, cols=1,
+                       specs=[[{"type": "scatter"}],
+                              [{"type": "table"}]],
+                       subplot_titles=("Grafico dei punti meritati",
+                                       "Classifica"))
+fig.update_layout(title_text=f"Statistiche della {numGiornata} giornata del Fantacalcio {competizione}",
+                  xaxis1_title_text="Giornata N°",
+                  yaxis1_title_text="Punti meritati",
+                  bargap=0.2)
+fig.add_trace(go.Table(columnwidth=[4, 10, 4, 4, 4, 4, 4],
+                       header=dict(values=list(dfCl.columns),
+                                   fill_color="paleturquoise",
+                                   line_color='darkslategray'),
+                       cells=dict(values=[dfCl[col] for col in dfCl.columns],
+                                  fill=dict(color=[colorsClassMeritata,
+                                                   l, l, l,
+                                                   colorsPunti,
+                                                   colorsClassReale,
+                                                   colorsPosizioni]),
+                                  line_color='darkslategray')), row=2, col=1)
 
 
-fig = go.Figure(data=[go.Table(header=dict(values=list(dfCl.columns),
-                                           fill_color="paleturquoise"),
-                               cells=dict(values=[dfCl[col] for col in dfCl.columns],
-                                          fill=dict(color=[l, l, l, l, colorsPunti, l, colorsPosizioni])))])
+dfExp = pd.DataFrame(dfExp)
+dfExp["Giornata"] = 1
+for x in range(1, len(dfExp)):
+    dfExp.iloc[x] += dfExp.iloc[x-1]
+    dfExp["Giornata"][x] = x+1
+
+dfReal = pd.DataFrame(dfReal)
+dfReal["Giornata"] = 1
+for x in range(1, len(dfReal)):
+    dfReal.iloc[x] += dfReal.iloc[x-1]
+    dfReal["Giornata"][x] = x+1
+
+for i in range(8):
+    fig.add_trace(go.Scatter(x=dfExp["Giornata"], y=dfExp[playerName[i]],
+                  name=playerName[i], mode="lines+markers"), row=1, col=1)
+
 fig.show()
