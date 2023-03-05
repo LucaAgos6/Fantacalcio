@@ -184,12 +184,10 @@ l = "lavender"
 
 fig = ps.make_subplots(rows=2, cols=1,
                        specs=[[{"type": "scatter"}],
-                              [{"type": "table"}]],
-                       subplot_titles=("Grafico dei punti meritati",
-                                       "Classifica"))
+                              [{"type": "table"}]])
 fig.update_layout(title_text=f"Statistiche della {numGiornata} giornata del Fantacalcio {competizione}",
                   xaxis1_title_text="Giornata N°",
-                  yaxis1_title_text="Punti meritati",
+                  yaxis1_title_text="Percentuale di culo",
                   bargap=0.2)
 fig.add_trace(go.Table(columnwidth=[4, 10, 4, 4, 4, 4, 4],
                        header=dict(values=list(dfCl.columns),
@@ -216,8 +214,13 @@ for x in range(1, len(dfReal)):
     dfReal.iloc[x] += dfReal.iloc[x-1]
     dfReal["Giornata"][x] = x+1
 
+dfDif = dfReal- dfExp
+for x in range(0, len(dfDif)):
+    dfDif["Giornata"][x] = x+1
+print(dfDif)
+
 for i in range(8):
-    fig.add_trace(go.Scatter(x=dfExp["Giornata"], y=dfExp[playerName[i]],
+    fig.add_trace(go.Scatter(x=dfDif["Giornata"], y=dfDif[playerName[i]],
                   name=playerName[i], mode="lines+markers"), row=1, col=1)
 
 fig.show()
