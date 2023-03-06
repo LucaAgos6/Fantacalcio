@@ -3,17 +3,17 @@ def colorPunti(df):
     colorsPunti = []
     for c in df["Punti persi/rubati"]:
         if c > 5:
-            colorsPunti.append("#fc0808")
+            colorsPunti.append("#cf0226")
         elif c > 2.5:
-            colorsPunti.append("#ff4a4a")
+            colorsPunti.append("#FF6347")
         elif c > 0:
-            colorsPunti.append("#faafaf")
+            colorsPunti.append("#FFC0CB")
         elif c > -2.5:
-            colorsPunti.append("#b0faaf")
+            colorsPunti.append("#90EE90")
         elif c > -5:
-            colorsPunti.append("#5dfa5a")
+            colorsPunti.append("#63ff52")
         elif c <= -5:
-            colorsPunti.append("#06d602")
+            colorsPunti.append("#02cf0c")
     return colorsPunti
  
 def colorPosizioni(df):
@@ -21,19 +21,19 @@ def colorPosizioni(df):
     colorsPosizioni = []
     for c in df["Posizioni perse/rubate"]:
         if c > 2:
-            colorsPosizioni.append("#fc0808")
+            colorsPosizioni.append("#cf0226")
         elif c > 1:
-            colorsPosizioni.append("#ff4a4a")
+            colorsPosizioni.append("#FF6347")
         elif c > 0:
-            colorsPosizioni.append("#faafaf")
+            colorsPosizioni.append("#FFC0CB")
         elif c == 0:
             colorsPosizioni.append("lavender")
         elif c > -1:
             colorsPosizioni.append("#b0faaf")
         elif c > -2:
-            colorsPosizioni.append("#5dfa5a")
+            colorsPosizioni.append("#63ff52")
         elif c <= -2:
-            colorsPosizioni.append("#06d602")
+            colorsPosizioni.append("#02cf0c")
     return colorsPosizioni
 
 def colorPosReale(df): 

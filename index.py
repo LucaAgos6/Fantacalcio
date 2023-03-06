@@ -173,8 +173,6 @@ dfCl.sort_values(by=["Punti meritati"],
 dfCl.insert(0, "Posizione meritata", new_header[:-2])
 dfCl["Posizioni perse/rubate"] = dfCl["Posizione meritata"]-dfCl["Posizione reale"]
 
-print(dfCl)
-
 colorsPunti = colorPunti(dfCl)
 colorsPosizioni = colorPosizioni(dfCl)
 colorsClassReale = colorPosReale(dfCl)
@@ -214,10 +212,9 @@ for x in range(1, len(dfReal)):
     dfReal.iloc[x] += dfReal.iloc[x-1]
     dfReal["Giornata"][x] = x+1
 
-dfDif = dfReal- dfExp
+dfDif = dfReal - dfExp
 for x in range(0, len(dfDif)):
     dfDif["Giornata"][x] = x+1
-print(dfDif)
 
 for i in range(8):
     fig.add_trace(go.Scatter(x=dfDif["Giornata"], y=dfDif[playerName[i]],
