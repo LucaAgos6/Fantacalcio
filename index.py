@@ -4,8 +4,8 @@ import pandas as pd
 
 from colors import colorPosizioni, colorPosMeritata, colorPosReale, colorPunti
 
-competizione = "Cocazero111"
-df = pd.read_excel(f"Input\Calendario_{competizione}.xlsx")
+lega = "Cocazero111"
+df = pd.read_excel(f"Input\Calendario_{lega}.xlsx")
 
 
 def punti(punt1, punt2):
@@ -140,6 +140,8 @@ playerName = ["Club Atletico Caccias Old Boys",
 playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
 playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
 
+
+# Calcola gli expected points
 for item in expGiornate:
     for keyItem in item:
         for key in item[keyItem]:
@@ -147,6 +149,7 @@ for item in expGiornate:
                 if playerName[n] == key:
                     playerExp[n] += item[keyItem][key]
 
+# Calcola i punti reali
 for item in pointsGiornate:
     for keyItem in item:
         for key in item[keyItem]:
@@ -183,9 +186,9 @@ l = "lavender"
 fig = ps.make_subplots(rows=2, cols=1,
                        specs=[[{"type": "scatter"}],
                               [{"type": "table"}]])
-fig.update_layout(title_text=f"Statistiche della {numGiornata} giornata del Fantacalcio {competizione}",
+fig.update_layout(title_text=f"Statistiche della {numGiornata} giornata del Fantacalcio {lega}",
                   xaxis1_title_text="Giornata N°",
-                  yaxis1_title_text="Percentuale di culo",
+                  yaxis1_title_text="Indice del culo",
                   bargap=0.2)
 fig.add_trace(go.Table(columnwidth=[4, 10, 4, 4, 4, 4, 4],
                        header=dict(values=list(dfCl.columns),
