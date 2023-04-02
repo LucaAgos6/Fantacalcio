@@ -5,6 +5,18 @@ import pandas as pd
 from colors import colorPosizioni, colorPosMeritata, colorPosReale, colorPunti
 
 lega = "Cocazero111"
+playerName = ["Club Atletico Caccias Old Boys",
+              "??ANKONDORICACIVITASFIDEI??",
+              "Rooney Tunes",
+              "Panita Team",
+              "Herta mpone",
+              "I giordani",
+              "Spal Letti",
+              "Tammy Team"]
+
+playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
+playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
+
 df = pd.read_excel(f"Input\Calendario_{lega}.xlsx")
 
 
@@ -128,17 +140,6 @@ for i, row in df.iterrows():
         pointsGiornate.append({numGiornata: pointsPlayers})
         dfReal.append(pointsPlayers)
 
-playerName = ["Club Atletico Caccias Old Boys",
-              "??ANKONDORICACIVITASFIDEI??",
-              "Rooney Tunes",
-              "Panita Team",
-              "Herta mpone",
-              "I giordani",
-              "Spal Letti",
-              "Tammy Team"]
-
-playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
-playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
 
 
 # Calcola gli expected points
