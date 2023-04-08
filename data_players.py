@@ -2,7 +2,8 @@ import os
 import subprocess
 import pandas as pd
 
-from plot_tabelle import plot_tabelle_giocatori_squadre, plot_tabelle_moduli, plot_tabelle_bonus_ruoli
+from plot_tabelle import plot_tabelle_giocatori_squadre, plot_tabelle_moduli
+from plot_tabelle import plot_tabelle_bonus_ruoli, plot_tabelle_modificatore
 
 # Import automatico dei file
 # Media per giocatore per ruolo
@@ -30,7 +31,7 @@ def player(row, df, i, n, gior):
             df.iloc[i][n+1], df.iloc[i][n+2].lower(),
             df.iloc[i][n+3], df.iloc[i][n+4]]
 
-
+# Crea il Dataframe di tutti i dati tabellari
 for gior in range(1, giornate+1):
 
     df = pd.read_excel(
@@ -75,9 +76,9 @@ for gior in range(1, giornate+1):
                         lista_voti.append([gior, row[0], "A", "-", "-", 0, 0])
 
             if df.iloc[i+22][0] == "Modificatore difesa":
-                lista_punti_modificatore.append([row[0], df.iloc[i+22][4]])
+                lista_punti_modificatore.append([row[0], df.iloc[i+22][4], df.iloc[i+1][0]])
             else:
-                lista_punti_modificatore.append([row[0], 0])
+                lista_punti_modificatore.append([row[0], 0, df.iloc[i+1][0]])
 
         # Voti Fantagiocatore di destra
         if row[6] in player_name:
@@ -115,9 +116,9 @@ for gior in range(1, giornate+1):
                         lista_voti.append([gior, row[6], "A", "-", "-", 0, 0])
 
             if df.iloc[i+22][6] == "Modificatore difesa":
-                lista_punti_modificatore.append([row[6], df.iloc[i+22][10]])
+                lista_punti_modificatore.append([row[6], df.iloc[i+22][10], df.iloc[i+1][6]])
             else:
-                lista_punti_modificatore.append([row[0], 0])
+                lista_punti_modificatore.append([row[6], 0, df.iloc[i+1][6]])
 
 df = pd.DataFrame(lista_voti, columns=["Giornata", "Fantagiocatore",
                                        "Ruolo", "Giocatore", "Squadra",
@@ -127,4 +128,5 @@ subprocess.call(["python", "fantaculo.py"])
 plot_tabelle_moduli(giornate, competizione, player_name)
 plot_tabelle_giocatori_squadre(df, giornate)
 plot_tabelle_bonus_ruoli(df, giornate)
+plot_tabelle_modificatore(lista_punti_modificatore, giornate)
 

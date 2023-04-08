@@ -20,11 +20,11 @@ def plot_tabelle_giocatori_squadre(df, giornata):
 
     fig.add_trace(go.Table(header=dict(values=("Giocatore", "N° Giornate"),
                                        fill_color="paleturquoise",
-                                       line_color='darkslategray'),
+                                       line_color="darkslategray"),
                            cells=dict(values=[dfGiocatori.index[:21], dfGiocatori[:21]])), row=1, col=1)
     fig.add_trace(go.Table(header=dict(values=("Squadra", "N° Giocatori"),
                                        fill_color="paleturquoise",
-                                       line_color='darkslategray'),
+                                       line_color="darkslategray"),
                            cells=dict(values=[dfSquadre.index.str.upper(), dfSquadre])), row=1, col=2)
     fig.show()
 
@@ -58,7 +58,7 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
     fig = ps.make_subplots(rows=3, cols=4,
                            specs=[[{"type": "table"}, {"type": "table"}, {"type": "table"}, {"type": "table"}],
                                   [{"type": "table"}, {"type": "table"}, {
-                                   "type": "table"}, {"type": "table"}],
+                                      "type": "table"}, {"type": "table"}],
                                   [{"type": "table", "colspan": 2}, None, {"type": "table", "colspan": 2}, None]],
                            subplot_titles=player_name + ["Somma totale dei moduli utilizzati", "Percentuale dei moduli utilizzati"])
     fig.update_layout(
@@ -89,7 +89,7 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
         dftot = pd.concat([dftot, df])
         fig.add_trace(go.Table(header=dict(values=("Modulo", "N° Giornate"),
                                            fill_color="paleturquoise",
-                                           line_color='darkslategray'),
+                                           line_color="darkslategray"),
                                cells=dict(values=[df[col] for col in df.columns])), row=row, col=col)
 
         if col < 4 and row == 1:
@@ -105,7 +105,7 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
 
     fig.add_trace(go.Table(header=dict(values=result.index,
                                        fill_color="paleturquoise",
-                                       line_color='darkslategray'),
+                                       line_color="darkslategray"),
                            cells=dict(values=result)), row=3, col=1)
 
     # Calcola le percentuali
@@ -115,7 +115,7 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
 
     fig.add_trace(go.Table(header=dict(values=result.index,
                                        fill_color="paleturquoise",
-                                       line_color='darkslategray'),
+                                       line_color="darkslategray"),
                            cells=dict(values=result)), row=3, col=3)
 
     print("Plot delle tabelle statistiche sui moduli\n")
@@ -132,7 +132,7 @@ def plot_tabelle_bonus_ruoli(df, giornate):
     dfPortieri = pd.DataFrame(voto)
     dfPortieri["Fantavoto"] = fantavoto
     dfPortieri["Differenza"] = round(fantavoto - voto, 2)
-    dfPortieri = dfPortieri.sort_values(by='Fantavoto', ascending=False)
+    dfPortieri = dfPortieri.sort_values(by="Fantavoto", ascending=False)
 
     # Difensori
     dfDifensori = df[df["Ruolo"] == "D"]
@@ -142,7 +142,7 @@ def plot_tabelle_bonus_ruoli(df, giornate):
     dfDifensori = pd.DataFrame(voto)
     dfDifensori["Fantavoto"] = fantavoto
     dfDifensori["Differenza"] = round(fantavoto - voto, 2)
-    dfDifensori = dfDifensori.sort_values(by='Fantavoto', ascending=False)
+    dfDifensori = dfDifensori.sort_values(by="Fantavoto", ascending=False)
 
     # Centrocampisti
     dfCentrocampisti = df[df["Ruolo"] == "C"]
@@ -153,7 +153,7 @@ def plot_tabelle_bonus_ruoli(df, giornate):
     dfCentrocampisti["Fantavoto"] = fantavoto
     dfCentrocampisti["Differenza"] = round(fantavoto - voto, 2)
     dfCentrocampisti = dfCentrocampisti.sort_values(
-        by='Fantavoto', ascending=False)
+        by="Fantavoto", ascending=False)
 
     # Attaccanti
     dfAttaccanti = df[df["Ruolo"] == "A"]
@@ -163,7 +163,7 @@ def plot_tabelle_bonus_ruoli(df, giornate):
     dfAttaccanti = pd.DataFrame(voto)
     dfAttaccanti["Fantavoto"] = fantavoto
     dfAttaccanti["Differenza"] = round(fantavoto - voto, 2)
-    dfAttaccanti = dfAttaccanti.sort_values(by='Fantavoto', ascending=False)
+    dfAttaccanti = dfAttaccanti.sort_values(by="Fantavoto", ascending=False)
 
     fig = ps.make_subplots(rows=2, cols=2,
                            specs=[[{"type": "table"}, {"type": "table"}],
@@ -177,7 +177,7 @@ def plot_tabelle_bonus_ruoli(df, giornate):
 
     fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "Voto", "Fantavoto", "Differenza"),
                                        fill_color="paleturquoise",
-                                       line_color='darkslategray'),
+                                       line_color="darkslategray"),
                            cells=dict(values=[dfPortieri.index,
                                               dfPortieri["Voto"],
                                               dfPortieri["Fantavoto"],
@@ -185,7 +185,7 @@ def plot_tabelle_bonus_ruoli(df, giornate):
                            columnwidth=[2, 1, 1, 1]), row=1, col=1)
     fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "Voto", "Fantavoto", "Differenza"),
                                        fill_color="paleturquoise",
-                                       line_color='darkslategray'),
+                                       line_color="darkslategray"),
                            cells=dict(values=[dfDifensori.index,
                                               dfDifensori["Voto"],
                                               dfDifensori["Fantavoto"],
@@ -193,7 +193,7 @@ def plot_tabelle_bonus_ruoli(df, giornate):
                            columnwidth=[2, 1, 1, 1]), row=1, col=2)
     fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "Voto", "Fantavoto", "Differenza"),
                                        fill_color="paleturquoise",
-                                       line_color='darkslategray'),
+                                       line_color="darkslategray"),
                            cells=dict(values=[dfCentrocampisti.index,
                                               dfCentrocampisti["Voto"],
                                               dfCentrocampisti["Fantavoto"],
@@ -201,7 +201,7 @@ def plot_tabelle_bonus_ruoli(df, giornate):
                            columnwidth=[2, 1, 1, 1]), row=2, col=1)
     fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "Voto", "Fantavoto", "Differenza"),
                                        fill_color="paleturquoise",
-                                       line_color='darkslategray'),
+                                       line_color="darkslategray"),
                            cells=dict(values=[dfAttaccanti.index,
                                               dfAttaccanti["Voto"],
                                               dfAttaccanti["Fantavoto"],
@@ -210,3 +210,89 @@ def plot_tabelle_bonus_ruoli(df, giornate):
     fig.show()
 
     print("Plot delle tabelle con media voti\n")
+
+
+def plot_tabelle_modificatore(lista_mod, giornate):
+
+    # Modificatore totale
+    dfMod = pd.DataFrame(lista_mod, columns=["Nome", "Modificatore", "Modulo"])
+    modificatore = dfMod.groupby("Nome")["Modificatore"].mean().round(2)
+    num = dfMod.groupby("Nome")["Modificatore"].count()
+    dfMod = pd.DataFrame(modificatore)
+    dfMod["Modificatore"] = modificatore
+    dfMod["Giornate"] = num
+    dfMod = dfMod.sort_values(by="Modificatore", ascending=False)
+
+    # Modificatore filtrato per quando la difesa è a 4 o a 5
+    lista_mod_filt1 = [lst for lst in lista_mod if str(
+        lst[2]).startswith("4") or str(lst[2]).startswith("5")]
+    dfModFilt1 = pd.DataFrame(lista_mod_filt1, columns=[
+                              "Nome", "Modificatore", "Modulo"])
+    modificatore = dfModFilt1.groupby("Nome")["Modificatore"].mean().round(2)
+    num = dfModFilt1.groupby("Nome")["Modificatore"].count()
+    dfModFilt1 = pd.DataFrame(modificatore)
+    dfModFilt1["Modificatore"] = modificatore
+    dfModFilt1["Giornate"] = num
+    dfModFilt1 = dfModFilt1.sort_values(by="Modificatore", ascending=False)
+
+    # Modificatore filtrato per quando è > 0
+    lista_mod_filt2 = [lst for lst in lista_mod if lst[1] > 0]
+    dfModFilt2 = pd.DataFrame(lista_mod_filt2, columns=[
+                              "Nome", "Modificatore", "Modulo"])
+    modificatore = dfModFilt2.groupby("Nome")["Modificatore"].mean().round(2)
+    num = dfModFilt2.groupby("Nome")["Modificatore"].count()
+    dfModFilt2 = pd.DataFrame(modificatore)
+    dfModFilt2["Modificatore"] = modificatore
+    dfModFilt2["Giornate"] = num
+    dfModFilt2 = dfModFilt2.sort_values(by="Modificatore", ascending=False)
+
+    # Modificatore filtrato per quando è = 0
+    lista_mod_filt3 = [lst for lst in lista_mod if str(
+        lst[2]).startswith("4") or str(lst[2]).startswith("5")]
+    lista_mod_filt3 = [lst for lst in lista_mod_filt3 if lst[1] == 0]
+    dfModFilt3 = pd.DataFrame(lista_mod_filt3, columns=[
+                              "Nome", "Modificatore", "Modulo"])
+    modificatore = dfModFilt3.groupby("Nome")["Modificatore"].mean().round(2)
+    num = dfModFilt3.groupby("Nome")["Modificatore"].count()
+    dfModFilt3 = pd.DataFrame(modificatore)
+    dfModFilt3["Modificatore"] = modificatore
+    dfModFilt3["Giornate"] = num
+    dfModFilt3 = dfModFilt3.sort_values(by="Giornate", ascending=False)
+
+    fig = ps.make_subplots(rows=2, cols=2,
+                           specs=[[{"type": "table"}, {"type": "table"}],
+                                  [{"type": "table"}, {"type": "table"}]],
+                           subplot_titles=["Media del Modificatore per tutte le Giornate",
+                                           "Media del Modificatore per le Giornate in cui la difesa è a 4 o 5",
+                                           "Media del Modificatore per le Giornate in cui è > 0",
+                                           "Media del Modificatore per le Giornate in cui è = 0"])
+    fig.update_layout(
+        title_text=f"Media del Modificatore aggiornato alla {giornate}° Giornata")
+
+    fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "Media Modificatore", "N° Giornate"),
+                                       fill_color="paleturquoise",
+                                       line_color="darkslategray"),
+                           cells=dict(
+                               values=[dfMod.index, dfMod["Modificatore"], dfMod["Giornate"]]),
+                           columnwidth=[2, 1]), row=1, col=1)
+    fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "Media Modificatore", "N° Giornate"),
+                                       fill_color="paleturquoise",
+                                       line_color="darkslategray"),
+                           cells=dict(
+                               values=[dfModFilt1.index, dfModFilt1["Modificatore"], dfModFilt1["Giornate"]]),
+                           columnwidth=[2, 1]), row=1, col=2)
+    fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "Media Modificatore", "N° Giornate"),
+                                       fill_color="paleturquoise",
+                                       line_color="darkslategray"),
+                           cells=dict(
+                               values=[dfModFilt2.index, dfModFilt2["Modificatore"], dfModFilt2["Giornate"]]),
+                           columnwidth=[2, 1]), row=2, col=1)
+    fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "Media Modificatore", "N° Giornate"),
+                                       fill_color="paleturquoise",
+                                       line_color="darkslategray"),
+                           cells=dict(
+                               values=[dfModFilt3.index, dfModFilt3["Modificatore"], dfModFilt3["Giornate"]]),
+                           columnwidth=[2, 1]), row=2, col=2)
+    fig.show()
+
+    print("Plot delle tabelle statistiche sul modificatore\n")
