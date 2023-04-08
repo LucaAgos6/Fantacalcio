@@ -4,9 +4,9 @@ import pandas as pd
 
 from plot_tabelle import plot_tabelle_giocatori_squadre, plot_tabelle_moduli
 from plot_tabelle import plot_tabelle_bonus_ruoli, plot_tabelle_modificatore
+from plot_tabelle import plot_tabelle_migliori_giocatori
 
 # Import automatico dei file
-# Media per giocatore per ruolo
 
 # Conta il numero di file salvati nella cartella Giornate
 giornate = len([f for f in os.listdir("Input/Giornate")
@@ -129,4 +129,4 @@ plot_tabelle_moduli(giornate, competizione, player_name)
 plot_tabelle_giocatori_squadre(df, giornate)
 plot_tabelle_bonus_ruoli(df, giornate)
 plot_tabelle_modificatore(lista_punti_modificatore, giornate)
-
+plot_tabelle_migliori_giocatori(df, giornate)
