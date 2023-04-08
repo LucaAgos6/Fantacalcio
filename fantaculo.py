@@ -4,6 +4,8 @@ import pandas as pd
 
 from colors import colorPosizioni, colorPosMeritata, colorPosReale, colorPunti
 
+pd.options.mode.chained_assignment = None
+
 lega = "Cocazero111"
 playerName = ["Club Atletico Caccias Old Boys",
               "??ANKONDORICACIVITASFIDEI??",
@@ -187,7 +189,7 @@ l = "lavender"
 fig = ps.make_subplots(rows=2, cols=1,
                        specs=[[{"type": "scatter"}],
                               [{"type": "table"}]])
-fig.update_layout(title_text=f"Statistiche della {numGiornata} giornata del Fantacalcio {lega}",
+fig.update_layout(title_text=f"Statistiche della {numGiornata} Giornata del Fantacalcio {lega}",
                   xaxis1_title_text="Giornata N°",
                   yaxis1_title_text="Indice del culo",
                   bargap=0.2)
@@ -225,3 +227,5 @@ for i in range(8):
                   name=playerName[i], mode="lines+markers"), row=1, col=1)
 
 fig.show()
+
+print("Plot del grafico fantaculo\n")

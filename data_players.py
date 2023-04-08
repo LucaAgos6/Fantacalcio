@@ -1,11 +1,16 @@
+import os
+import subprocess
 import pandas as pd
 
-giornate = 26
+from plot_tabelle import plot_tabelle_giocatori_squadre, plot_tabelle_moduli, plot_tabelle_bonus_ruoli
+
+# Import automatico dei file
+# Media per giocatore per ruolo
+
+# Conta il numero di file salvati nella cartella Giornate
+giornate = len([f for f in os.listdir("Input/Giornate")
+                if os.path.isfile(os.path.join("Input/Giornate", f))])
 competizione = "spritecalcio111"
-
-lista_voti = []
-lista_punti_modificatore = []
-
 player_name = ["CLUB ATLETICO CACCIAS OLD BOYS",
                "??ANKONDORICACIVITASFIDEI??",
                "ROONEY TUNES",
@@ -15,11 +20,15 @@ player_name = ["CLUB ATLETICO CACCIAS OLD BOYS",
                "SPAL LETTI",
                "TAMMY TEAM"]
 ruoli = ["P", "D", "C", "A"]
-
+lista_voti = []
+lista_punti_modificatore = []
+print()
 
 # Restituisce NomePlayer, Ruolo, Nome, Squadra, Voto e Fantavoto del giocatore
 def player(row, df, i, n, gior):
-    return [gior, row[n], df.iloc[i][n], df.iloc[i][n+1], df.iloc[i][n+2].lower(), df.iloc[i][n+3], df.iloc[i][n+4]]
+    return [gior, row[n], df.iloc[i][n],
+            df.iloc[i][n+1], df.iloc[i][n+2].lower(),
+            df.iloc[i][n+3], df.iloc[i][n+4]]
 
 
 for gior in range(1, giornate+1):
@@ -104,59 +113,18 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i+21, 6, gior))
                     else:
                         lista_voti.append([gior, row[6], "A", "-", "-", 0, 0])
-                
+
             if df.iloc[i+22][6] == "Modificatore difesa":
                 lista_punti_modificatore.append([row[6], df.iloc[i+22][10]])
             else:
                 lista_punti_modificatore.append([row[0], 0])
 
-# print(lista_voti)
+df = pd.DataFrame(lista_voti, columns=["Giornata", "Fantagiocatore",
+                                       "Ruolo", "Giocatore", "Squadra",
+                                       "Voto", "Fantavoto"])
 
-df = pd.DataFrame(lista_voti, columns=[
-                  "Giornata", "Fantagiocatore", "Ruolo", "Giocatore", "Squadra", "Voto", "Fantavoto"])
-
-# print(df.loc[(df['Giornata'] == 18) & (df['Ruolo'] == 'C') & (df['Fantagiocatore'] == '??ANKONDORICACIVITASFIDEI??')])
-print(df)
-df = df.groupby("Giocatore")["Giornata"].count().sort_values(ascending=False)
-# print(df[25:50])
-
-
-# Portieri
-# df = pd.DataFrame(lista_voti_portieri, columns=["Nome", "Voto", "Fantavoto"])
-# voto = df.groupby("Nome")["Voto"].mean().round(2)
-# fantavoto = df.groupby("Nome")["Fantavoto"].mean().round(2)
-# df = pd.DataFrame(voto)
-# df["Fantavoto"] = fantavoto
-# df["Differenza"] = fantavoto - voto
-# df = df.sort_values(by='Fantavoto', ascending=False)
-# print(df)
-
-# Difensori
-# df = pd.DataFrame(lista_voti_difensori, columns=["Nome", "Voto", "Fantavoto"])
-# voto = df.groupby("Nome")["Voto"].mean().round(2)
-# fantavoto = df.groupby("Nome")["Fantavoto"].mean().round(2)
-# df = pd.DataFrame(voto)
-# df["Fantavoto"] = fantavoto
-# df["Differenza"] = fantavoto - voto
-# df = df.sort_values(by='Fantavoto', ascending=False)
-# print(df)
-
-# Modificatore
-dfMod = pd.DataFrame(lista_punti_modificatore, columns=["Nome", "Modificatore"])
-modificatore = dfMod.groupby("Nome")["Modificatore"].mean().round(2)
-dfMod = pd.DataFrame(modificatore)
-dfMod["Modificatore"] = modificatore
-dfMod = dfMod.sort_values(by='Modificatore', ascending=False)
-print(dfMod)
-
-
-# Centrocampisti
-# dfC = df[df["Ruolo"] == "C"]
-# voto = dfC.groupby("Fantagiocatore")["Voto"].mean().round(2)
-# fantavoto = dfC.groupby("Fantagiocatore")["Fantavoto"].mean().round(2)
-# dfC = pd.DataFrame(voto)
-# dfC["Fantavoto"] = fantavoto
-# dfC["Differenza"] = fantavoto - voto
-# dfC = dfC.sort_values(by="Fantavoto", ascending=False)
-# print(dfC)
+subprocess.call(["python", "fantaculo.py"])
+plot_tabelle_moduli(giornate, competizione, player_name)
+plot_tabelle_giocatori_squadre(df, giornate)
+plot_tabelle_bonus_ruoli(df, giornate)
 
