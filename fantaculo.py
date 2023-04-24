@@ -4,23 +4,6 @@ import pandas as pd
 
 from colors import colorPosizioni, colorPosMeritata, colorPosReale, colorPunti
 
-pd.options.mode.chained_assignment = None
-
-lega = "Cocazero111"
-playerName = ["Club Atletico Caccias Old Boys",
-              "??ANKONDORICACIVITASFIDEI??",
-              "Rooney Tunes",
-              "Panita Team",
-              "Herta mpone",
-              "I giordani",
-              "Spal Letti",
-              "Tammy Team"]
-
-playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
-playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
-
-df = pd.read_excel(f"Input\Calendario_{lega}.xlsx")
-
 
 def punti(punt1, punt2):
     if punt1 > punt2:
@@ -72,6 +55,23 @@ def makePointsLists(listaGol):
 
     return listaExp, listaPoints
 
+
+pd.options.mode.chained_assignment = None
+
+lega = "Cocazero111"
+playerName = ["Club Atletico Caccias Old Boys",
+              "??ANKONDORICACIVITASFIDEI??",
+              "Rooney Tunes",
+              "Panita Team",
+              "Herta mpone",
+              "I giordani",
+              "Spal Letti",
+              "Tammy Team"]
+
+playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
+playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
+
+df = pd.read_excel(f"Input\Calendario_{lega}.xlsx")
 
 del df[df.columns[5]]
 df = df[2:]
@@ -141,7 +141,6 @@ for i, row in df.iterrows():
         dfExp.append(expPlayers)
         pointsGiornate.append({numGiornata: pointsPlayers})
         dfReal.append(pointsPlayers)
-
 
 
 # Calcola gli expected points
@@ -228,4 +227,4 @@ for i in range(8):
 
 fig.show()
 
-print("Plot del grafico fantaculo\n")
+print("\nPlot del grafico fantaculo\n")

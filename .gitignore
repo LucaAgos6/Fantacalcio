@@ -1,5 +1,6 @@
 # All folder
 */*
+download.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
