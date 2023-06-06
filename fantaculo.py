@@ -66,7 +66,7 @@ playerName = ["Club Atletico Caccias Old Boys",
               "Herta mpone",
               "I giordani",
               "Spal Letti",
-              "Tammy Team"]
+              "La Faxio"]
 
 playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
 playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]

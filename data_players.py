@@ -36,6 +36,7 @@ for gior in range(1, giornate+1):
 
     df = pd.read_excel(
         f"Input\Giornate\Formazioni_{competizione}_{gior}_giornata.xlsx")
+    print(f"Input\Giornate\Formazioni_{competizione}_{gior}_giornata.xlsx")
 
     for i, row in df.iterrows():
 
