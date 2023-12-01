@@ -12,14 +12,14 @@ from plot_tabelle import plot_tabelle_migliori_giocatori
 giornate = len([f for f in os.listdir("Input/Giornate")
                 if os.path.isfile(os.path.join("Input/Giornate", f))])
 competizione = "spritecalcio111"
-player_name = ["CLUB ATLETICO CACCIAS OLD BOYS",
-               "??ANKONDORICACIVITASFIDEI??",
-               "ROONEY TUNES",
-               "PANITA TEAM",
-               "HERTA MPONE",
-               "I GIORDANI",
+player_name = ["LA FAXIO",
+               "FC EL TORO",
                "SPAL LETTI",
-               "TAMMY TEAM"]
+               "HOFFENHEIMER",
+               "LA PACCO GANG",
+               "PANITA TRADITORE",
+               "NEWCASTELLETTO UTD",
+               "??ANKONDORICACIVITASFIDEI??"]
 ruoli = ["P", "D", "C", "A"]
 lista_voti = []
 lista_punti_modificatore = []

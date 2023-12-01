@@ -1,6 +1,6 @@
-import plotly.graph_objects as go
-import plotly.subplots as ps
 import pandas as pd
+import plotly.subplots as ps
+import plotly.graph_objects as go
 
 from colors import colorPosizioni, colorPosMeritata, colorPosReale, colorPunti
 
@@ -58,15 +58,15 @@ def makePointsLists(listaGol):
 
 pd.options.mode.chained_assignment = None
 
-lega = "Cocazero111"
-playerName = ["Club Atletico Caccias Old Boys",
-              "??ANKONDORICACIVITASFIDEI??",
-              "Rooney Tunes",
-              "Panita Team",
-              "Herta mpone",
-              "I giordani",
+lega = "Estathe"
+playerName = ["La Faxio",
+              "Fc El Toro",
               "Spal Letti",
-              "La Faxio"]
+              "Hoffenheimer",
+              "LA Pacco Gang",
+              "Panita Traditore",
+              "NewCastelletto Utd",
+              "??ANKONDORICACIVITASFIDEI??"]
 
 playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
 playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -86,7 +86,7 @@ dfReal = []
 for i, row in df.iterrows():
 
     # Giornate a sinistra
-    if "Giornata" in row[1] and df.loc[i+1][5] != "-":
+    if "Giornata" in str(row[1]) and df.loc[i+1][5] != "-" and df.loc[i+1][5] == df.loc[i+1][5]:
 
         numGiornata = row[1].split(" ")[0]
 
@@ -113,7 +113,7 @@ for i, row in df.iterrows():
         dfReal.append(pointsPlayers)
 
     # Giornate a destra
-    if "Giornata" in str(row[3]) and df.loc[i+1][10] != "-":
+    if "Giornata" in str(row[1]) and df.loc[i+1][10] != "-" and df.loc[i+1][10] == df.loc[i+1][10]:
 
         if row[1].split(" ")[0] == "37ª":
             break
@@ -183,7 +183,6 @@ colorsPosizioni = colorPosizioni(dfCl)
 colorsClassReale = colorPosReale(dfCl)
 colorsClassMeritata = colorPosMeritata(dfCl)
 l = "lavender"
-
 
 fig = ps.make_subplots(rows=2, cols=1,
                        specs=[[{"type": "scatter"}],
