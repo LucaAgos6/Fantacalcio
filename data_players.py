@@ -13,13 +13,13 @@ giornate = len([f for f in os.listdir("Input/Giornate")
                 if os.path.isfile(os.path.join("Input/Giornate", f))])
 competizione = "spritecalcio111"
 player_name = ["LA FAXIO",
-               "FC EL TORO",
-               "SPAL LETTI",
-               "HOFFENHEIMER",
-               "LA PACCO GANG",
-               "PANITA TRADITORE",
-               "NEWCASTELLETTO UTD",
-               "??ANKONDORICACIVITASFIDEI??"]
+              "PIACEREZITO",
+              "MORATTA LEAGUE",
+              "WOLVERINHAMPTON",
+              "PANITA TRADITORE",
+              "CHICAGO HASBULLS",
+              "TI FACCIO NERO FC",
+              "NONVINCOUNCAZZOMANCOSTANNO"]
 ruoli = ["P", "D", "C", "A"]
 lista_voti = []
 lista_punti_modificatore = []
@@ -28,7 +28,7 @@ print()
 # Restituisce NomePlayer, Ruolo, Nome, Squadra, Voto e Fantavoto del giocatore
 def player(row, df, i, n, gior):
     return [gior, row[n], df.iloc[i][n],
-            df.iloc[i][n+1], df.iloc[i][n+2].lower(),
+            df.iloc[i][n+1], "SQUADRA",
             df.iloc[i][n+3], df.iloc[i][n+4]]
 
 # Crea il Dataframe di tutti i dati tabellari

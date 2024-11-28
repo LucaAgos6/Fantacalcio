@@ -58,15 +58,15 @@ def makePointsLists(listaGol):
 
 pd.options.mode.chained_assignment = None
 
-lega = "Estathe"
+lega = "Fantascossi"
 playerName = ["La Faxio",
-              "Fc El Toro",
-              "Spal Letti",
-              "Hoffenheimer",
-              "LA Pacco Gang",
+              "PiacereZito",
+              "Moratta League",
+              "Wolverinhampton",
               "Panita Traditore",
-              "NewCastelletto Utd",
-              "??ANKONDORICACIVITASFIDEI??"]
+              "Chicago Hasbulls",
+              "Ti Faccio Nero FC",
+              "nonvincounCAZZOmancostanno"]
 
 playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
 playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
