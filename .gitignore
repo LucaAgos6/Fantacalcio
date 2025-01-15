@@ -1,6 +1,10 @@
 # All folder
 */*
+
+# My file
 download.py
+prova.py
+*.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
