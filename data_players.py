@@ -14,7 +14,7 @@ giornate = len([f for f in os.listdir("Input/Giornate")
 competizione = "spritecalcio111"
 player_name = ["LA FAXIO",
               "PIACEREZITO",
-              "MORATTA LEAGUE",
+              "VALHALLA UNITED",
               "WOLVERINHAMPTON",
               "PANITA TRADITORE",
               "CHICAGO HASBULLS",

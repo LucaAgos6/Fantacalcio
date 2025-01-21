@@ -61,7 +61,7 @@ pd.options.mode.chained_assignment = None
 lega = "Fantascossi"
 playerName = ["La Faxio",
               "PiacereZito",
-              "Moratta League",
+              "Valhalla United",
               "Wolverinhampton",
               "Panita Traditore",
               "Chicago Hasbulls",
