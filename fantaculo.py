@@ -60,8 +60,8 @@ pd.options.mode.chained_assignment = None
 
 lega = "Fantascossi"
 playerName = ["La Faxio",
-              "PiacereZito",
-              "Valhalla United",
+              "Dilettona Team",
+              "Fila Via Fc",
               "Wolverinhampton",
               "Panita Traditore",
               "Chicago Hasbulls",
@@ -208,17 +208,19 @@ dfExp = pd.DataFrame(dfExp)
 dfExp["Giornata"] = 1
 for x in range(1, len(dfExp)):
     dfExp.iloc[x] += dfExp.iloc[x-1]
-    dfExp["Giornata"][x] = x+1
+
+    dfExp.loc[x, "Giornata"] = x + 1
 
 dfReal = pd.DataFrame(dfReal)
 dfReal["Giornata"] = 1
 for x in range(1, len(dfReal)):
     dfReal.iloc[x] += dfReal.iloc[x-1]
-    dfReal["Giornata"][x] = x+1
+    dfReal.loc[x, "Giornata"] = x + 1
 
 dfDif = dfReal - dfExp
 for x in range(0, len(dfDif)):
-    dfDif["Giornata"][x] = x+1
+    dfDif.loc[x, "Giornata"] = x + 1
+
 
 for i in range(8):
     fig.add_trace(go.Scatter(x=dfDif["Giornata"], y=dfDif[playerName[i]],

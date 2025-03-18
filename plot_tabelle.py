@@ -49,10 +49,10 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
 
         # Salva in una lista "NomePlayer Modulo"
         for i, row in df.iterrows():
-            if row[0] in player_name:
-                lista_moduli.append(f"{row[0]} {df.loc[i+1][0]}")
-            if row[6] in player_name:
-                lista_moduli.append(f"{row[6]} {df.loc[i+1][6]}")
+            if row.iloc[0] in player_name:
+                lista_moduli.append(f"{row.iloc[0]} {df.iloc[i + 1, 0]}")
+            if row.iloc[6] in player_name:
+                lista_moduli.append(f"{row.iloc[6]} {df.iloc[i + 1, 6]}")
 
     # Dizionario di "NomePlayer Modulo": N° volte
     conteggio_elementi = {}
@@ -120,8 +120,10 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
 
     # Calcola le percentuali
     tot = result.sum()
+    result = result.astype(str)
+
     for i in range(len(result)):
-        result[i] = f"{round(result[i]/tot*100, 2)}%"
+        result.iloc[i] = f"{round(int(result.iloc[i])/tot*100, 2)}%"
 
     fig.add_trace(go.Table(header=dict(values=result.index,
                                        fill_color="paleturquoise",
