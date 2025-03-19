@@ -9,8 +9,7 @@ from plot_tabelle import plot_tabelle_migliori_giocatori
 # Import automatico dei file
 
 # Conta il numero di file salvati nella cartella Giornate
-giornate = len([f for f in os.listdir("Input/Giornate")
-                if os.path.isfile(os.path.join("Input/Giornate", f))])
+giornate = len([f for f in os.listdir("Input/Giornate") if os.path.isfile(os.path.join("Input/Giornate", f))])
 competizione = "spritecalcio111"
 player_name = ["LA FAXIO",
               "DILETTONA TEAM",
@@ -27,9 +26,6 @@ print()
 
 # Restituisce NomePlayer, Ruolo, Nome, Squadra, Voto e Fantavoto del giocatore
 def player(row, df, i, n, gior):
-    # return [gior, row[n], df.iloc[i][n],
-    #         df.iloc[i][n+1], "SQUADRA",
-    #         df.iloc[i][n+3], df.iloc[i][n+4]]
     return [gior, row.iloc[n], df.iloc[i, n],
         df.iloc[i, n+1], "SQUADRA",
         df.iloc[i, n+3], df.iloc[i, n+4]]
@@ -37,15 +33,13 @@ def player(row, df, i, n, gior):
 # Crea il Dataframe di tutti i dati tabellari
 for gior in range(1, giornate+1):
 
-    df = pd.read_excel(
-        f"Input\Giornate\Formazioni_{competizione}_{gior}_giornata.xlsx")
+    df = pd.read_excel(f"Input\Giornate\Formazioni_{competizione}_{gior}_giornata.xlsx")
     print(f"Input\Giornate\Formazioni_{competizione}_{gior}_giornata.xlsx")
 
     for i, row in df.iterrows():
-
         # Salva in una lista Giornata, NomePlayer, Ruolo, Nome, Squadra, Voto e Fantavoto del centrocampista
-        # Voti Fantagiocatore di sinistra
 
+        # Voti Fantagiocatore di sinistra
         if row.iloc[0] in player_name:
 
             for p in range(2, 13):

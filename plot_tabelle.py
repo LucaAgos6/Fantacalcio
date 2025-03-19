@@ -8,12 +8,10 @@ from utils import utils_migliori_giocatori, add_trace_migliori_giocatori
 
 
 def plot_tabelle_giocatori_squadre(df, giornata):
-    dfGiocatori = df.groupby("Giocatore")[
-        "Giornata"].count().sort_values(ascending=False)
+    dfGiocatori = df.groupby("Giocatore")["Giornata"].count().sort_values(ascending=False)
     dfGiocatori = pd.DataFrame(dfGiocatori)
 
-    dfSquadre = df.groupby("Squadra")[
-        "Giornata"].count().sort_values(ascending=False)
+    dfSquadre = df.groupby("Squadra")["Giornata"].count().sort_values(ascending=False)
     dfSquadre = pd.DataFrame(dfSquadre)
 
     fig = ps.make_subplots(rows=1, cols=2,
@@ -44,8 +42,7 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
 
     for i in range(1, giornate+1):
 
-        df = pd.read_excel(
-            f"Input\Giornate\Formazioni_{competizione}_{i}_giornata.xlsx")
+        df = pd.read_excel(f"Input\Giornate\Formazioni_{competizione}_{i}_giornata.xlsx")
 
         # Salva in una lista "NomePlayer Modulo"
         for i, row in df.iterrows():
@@ -81,10 +78,8 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
     for player in player_name:
 
         # Filtro per nome del player
-        chiavi_filtrate = [
-            key for key in conteggio_elementi.keys() if player in key]
-        dizionario_filtrato = {
-            key: value for key, value in conteggio_elementi.items() if key in chiavi_filtrate}
+        chiavi_filtrate = [key for key in conteggio_elementi.keys() if player in key]
+        dizionario_filtrato = {key: value for key, value in conteggio_elementi.items() if key in chiavi_filtrate}
 
         tabella = []
         sorted_tuples = sorted(dizionario_filtrato.items(),
@@ -190,8 +185,7 @@ def plot_tabelle_modificatore(lista_mod, giornate):
                                            "Media del Modificatore per le Giornate in cui la difesa è a 4 o 5",
                                            "Media del Modificatore per le Giornate in cui è > 0",
                                            "Media del Modificatore per le Giornate in cui è = 0 e la difesa è a 4 o 5"])
-    fig.update_layout(
-        title_text=f"Media del Modificatore aggiornato alla {giornate}° Giornata")
+    fig.update_layout(title_text=f"Media del Modificatore aggiornato alla {giornate}° Giornata")
 
     fig = add_trace_modificatore(fig, dfMod, 1, 1)
     fig = add_trace_modificatore(fig, dfModFilt1, 1, 2)
