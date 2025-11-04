@@ -40,36 +40,45 @@ def gol(punti):
 
 
 def makePointsLists(listaGol):
+    n = len(listaGol)
+    half = n // 2  # metà lista, es. 10 -> 5
 
-    listaExp = [0, 0, 0, 0, 0, 0, 0, 0]
-    listaPoints = [0, 0, 0, 0, 0, 0, 0, 0]
+    listaExp = [0] * n
+    listaPoints = [0] * n
 
-    for j in range(len(listaGol)):
-        for k in range(len(listaGol)):
+    for j in range(n):
+        # punti "attesi" contro tutti gli altri
+        for k in range(n):
             if j != k:
                 listaExp[j] += punti(listaGol[j], listaGol[k])
-        if j < 4:
-            listaPoints[j] = punti(listaGol[j], listaGol[j+4])
-        elif j >= 4:
-            listaPoints[j] = punti(listaGol[j], listaGol[j-4])
+
+        # punti effettivi del match
+        if j < half:
+            listaPoints[j] = punti(listaGol[j], listaGol[j + half])
+        else:
+            listaPoints[j] = punti(listaGol[j], listaGol[j - half])
 
     return listaExp, listaPoints
 
 
 pd.options.mode.chained_assignment = None
 
-lega = "Fantascossi"
-playerName = ["La Faxio",
-              "Dilettona Team",
-              "Fila Via Fc",
-              "Wolverinhampton",
+lega = "FantaRotary"
+playerName = [
+              "Giovane fuoriclasse",
+              "No TORO No PARTY",
+              "Berna Risk FC",
               "Panita Traditore",
-              "Chicago Hasbulls",
+              "El Pika Team",
+              "PAZzesco FC",
               "Ti Faccio Nero FC",
-              "nonvincounCAZZOmancostanno"]
+              "Kephreddo F.a",
+              "KEAN WE DANCE???",
+              "Decimo"
+              ]
 
-playerExp = [0, 0, 0, 0, 0, 0, 0, 0]
-playerPoint = [0, 0, 0, 0, 0, 0, 0, 0]
+playerExp = [0] * len(playerName)
+playerPoint = [0] * len(playerName)
 
 df = pd.read_excel(f"Input\Calendario_{lega}.xlsx")
 
@@ -86,26 +95,23 @@ dfReal = []
 for i, row in df.iterrows():
 
     # Giornate a sinistra
-    if "Giornata" in str(row[1]) and df.loc[i+1][5] != "-" and df.loc[i+1][5] == df.loc[i+1][5]:
+    if "Giornata" in str(row[1]) and df.loc[i+1][5] != "-" and pd.notna(df.loc[i+1, 5]):
 
         numGiornata = row[1].split(" ")[0]
 
-        listaGol = [gol(df.loc[i+1][2]), gol(df.loc[i+2][2]),
-                    gol(df.loc[i+3][2]), gol(df.loc[i+4][2]),
-                    gol(df.loc[i+1][3]), gol(df.loc[i+2][3]),
-                    gol(df.loc[i+3][3]), gol(df.loc[i+4][3])]
+        listaGol = [gol(df.loc[i + j, col]) for col in [2, 3] for j in range(1, len(playerName)//2 + 1)]
 
         listaExp, listaPoints = makePointsLists(listaGol)
 
         expPlayers = {}
         pointsPlayers = {}
 
-        for x in range(4):
-            expPlayers[df.loc[i+1+x][1]] = round(listaExp[x]/7, 2)
+        for x in range(5):
+            expPlayers[df.loc[i+1+x][1]] = round(listaExp[x]/(len(playerName) - 1), 2)
             pointsPlayers[df.loc[i+1+x][1]] = listaPoints[x]
-        for x in range(4):
-            expPlayers[df.loc[i+1+x][4]] = round(listaExp[x+4]/7, 2)
-            pointsPlayers[df.loc[i+1+x][4]] = listaPoints[x+4]
+        for x in range(5):
+            expPlayers[df.loc[i+1+x][4]] = round(listaExp[x+len(playerName)//2]/(len(playerName) - 1), 2)
+            pointsPlayers[df.loc[i+1+x][4]] = listaPoints[x+len(playerName)//2]
 
         expGiornate.append({numGiornata: expPlayers})
         dfExp.append(expPlayers)
@@ -113,29 +119,26 @@ for i, row in df.iterrows():
         dfReal.append(pointsPlayers)
 
     # Giornate a destra
-    if "Giornata" in str(row[1]) and df.loc[i+1][10] != "-" and df.loc[i+1][10] == df.loc[i+1][10]:
+    if "Giornata" in str(row[1]) and df.loc[i+1][10] != "-" and pd.notna(df.loc[i+1, 10]):
 
         if row[1].split(" ")[0] == "37ª":
             break
 
         numGiornata = row[3].split(" ")[0]
 
-        listaGol = [gol(df.loc[i+1][7]), gol(df.loc[i+2][7]),
-                    gol(df.loc[i+3][7]), gol(df.loc[i+4][7]),
-                    gol(df.loc[i+1][8]), gol(df.loc[i+2][8]),
-                    gol(df.loc[i+3][8]), gol(df.loc[i+4][8])]
+        listaGol = [gol(df.loc[i + j, col]) for col in [7, 8] for j in range(1, len(playerName)//2 + 1)]
 
         listaExp, listaPoints = makePointsLists(listaGol)
 
         expPlayers = {}
         pointsPlayers = {}
 
-        for x in range(4):
-            expPlayers[df.loc[i+1+x][6]] = round(listaExp[x]/7, 2)
+        for x in range(5):
+            expPlayers[df.loc[i+1+x][6]] = round(listaExp[x]/(len(playerName) - 1), 2)
             pointsPlayers[df.loc[i+1+x][6]] = listaPoints[x]
-        for x in range(4):
-            expPlayers[df.loc[i+1+x][9]] = round(listaExp[x+4]/7, 2)
-            pointsPlayers[df.loc[i+1+x][9]] = listaPoints[x+4]
+        for x in range(5):
+            expPlayers[df.loc[i+1+x][9]] = round(listaExp[x+len(playerName)//2]/(len(playerName) - 1), 2)
+            pointsPlayers[df.loc[i+1+x][9]] = listaPoints[x+len(playerName)//2]
 
         expGiornate.append({numGiornata: expPlayers})
         dfExp.append(expPlayers)
@@ -170,12 +173,12 @@ dfCl.sort_values(by=["Punti reali"],
                  ascending=False,
                  inplace=True,
                  ignore_index=True)
-dfCl["Posizione reale"] = new_header[:-2]
+dfCl["Posizione reale"] = new_header
 dfCl.sort_values(by=["Punti meritati"],
                  ascending=False,
                  inplace=True,
                  ignore_index=True)
-dfCl.insert(0, "Posizione meritata", new_header[:-2])
+dfCl.insert(0, "Posizione meritata", new_header)
 dfCl["Posizioni perse/rubate"] = dfCl["Posizione meritata"]-dfCl["Posizione reale"]
 
 colorsPunti = colorPunti(dfCl)
