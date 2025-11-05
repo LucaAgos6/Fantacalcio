@@ -11,14 +11,17 @@ from plot_tabelle import plot_tabelle_migliori_giocatori
 # Conta il numero di file salvati nella cartella Giornate
 giornate = len([f for f in os.listdir("Input/Giornate") if os.path.isfile(os.path.join("Input/Giornate", f))])
 competizione = "spritecalcio111"
-player_name = ["LA FAXIO",
-              "DILETTONA TEAM",
-              "FILA VIA FC",
-              "WOLVERINHAMPTON",
+# Scirvi i nomi in maiuscolo
+player_name = ["DECIMO",
+              "PAZZESCO FC",
+              "EL PIKA TEAM",
+              "KEPHREDDO F.A",
+              "BERNA RISK FC",
               "PANITA TRADITORE",
-              "CHICAGO HASBULLS",
+              "KEAN WE DANCE???",
+              "NO TORO NO PARTY",
               "TI FACCIO NERO FC",
-              "NONVINCOUNCAZZOMANCOSTANNO"]
+              "GIOVANE FUORICLASSE"]
 ruoli = ["P", "D", "C", "A"]
 lista_voti = []
 lista_punti_modificatore = []
@@ -120,9 +123,7 @@ for gior in range(1, giornate+1):
                 lista_punti_modificatore.append([row.iloc[6], 0, df.iloc[i + 1, 6]])
 
 
-df = pd.DataFrame(lista_voti, columns=["Giornata", "Fantagiocatore",
-                                       "Ruolo", "Giocatore", "Squadra",
-                                       "Voto", "Fantavoto"])
+df = pd.DataFrame(lista_voti, columns=["Giornata", "Fantagiocatore", "Ruolo", "Giocatore", "Squadra", "Voto", "Fantavoto"])
 
 subprocess.call(["python", "fantaculo.py"])
 plot_tabelle_moduli(giornate, competizione, player_name)
