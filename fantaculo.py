@@ -64,18 +64,16 @@ def makePointsLists(listaGol):
 pd.options.mode.chained_assignment = None
 
 lega = "FantaRotary"
-playerName = [
-              "Giovane fuoriclasse",
-              "No TORO No PARTY",
+playerName = ["Decimo",
+              "PAZzesco FC",
+              "El Pika Team",
+              "Kephreddo F.a",
               "Berna Risk FC",
               "Panita Traditore",
-              "El Pika Team",
-              "PAZzesco FC",
-              "Ti Faccio Nero FC",
-              "Kephreddo F.a",
               "KEAN WE DANCE???",
-              "Decimo"
-              ]
+              "No TORO No PARTY",
+              "Ti Faccio Nero FC",
+              "Giovane fuoriclasse"]
 
 playerExp = [0] * len(playerName)
 playerPoint = [0] * len(playerName)
