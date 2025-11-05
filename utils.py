@@ -45,8 +45,10 @@ def utils_modificatore(lista):
 
 def add_trace_modificatore(fig, df, row, col):
 
+    mod_name = "Modificatore" if row == 2 and col == 2 else "Media Modificatore"
+
     fig.add_trace(go.Table(header=dict(values=("Fantagiocatore",
-                                               "Media Modificatore",
+                                               mod_name,
                                                "N° Giornate"),
                                        fill_color="paleturquoise",
                                        line_color="darkslategray"),
