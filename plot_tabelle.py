@@ -59,12 +59,10 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
         else:
             conteggio_elementi[elemento] = 1
 
-    fig = ps.make_subplots(rows=3, cols=4,
-                           specs=[[{"type": "table"}, {"type": "table"},
-                                   {"type": "table"}, {"type": "table"}],
-                                  [{"type": "table"}, {"type": "table"},
-                                   {"type": "table"}, {"type": "table"}],
-                                  [{"type": "table", "colspan": 2}, None,
+    fig = ps.make_subplots(rows=3, cols=5,
+                           specs=[[{"type": "table"}] * 5,
+                                  [{"type": "table"}] * 5,
+                                  [{"type": "table", "colspan": 2}, None, None,
                                    {"type": "table", "colspan": 2}, None]],
                            subplot_titles=player_name + ["Somma totale dei moduli utilizzati",
                                                          "Percentuale dei moduli utilizzati"])
@@ -97,7 +95,7 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
                                            line_color="darkslategray"),
                                cells=dict(values=[df[col] for col in df.columns])), row=row, col=col)
 
-        if col < 4 and row == 1:
+        if col < 5 and row == 1:
             col += 1
         elif row == 1:
             col = 1
@@ -123,7 +121,7 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
     fig.add_trace(go.Table(header=dict(values=result.index,
                                        fill_color="paleturquoise",
                                        line_color="darkslategray"),
-                           cells=dict(values=result)), row=3, col=3)
+                           cells=dict(values=result)), row=3, col=4)
 
     print("Plot delle tabelle statistiche sui moduli\n")
     fig.show()
@@ -159,16 +157,27 @@ def plot_tabelle_modificatore(lista_mod, giornate):
 
     # Modificatore totale
     dfMod = utils_modificatore(lista_mod)
+    list_players = dfMod.index.tolist()
 
     # Modificatore filtrato per quando la difesa è a 4 o a 5
     lista_mod_filt1 = [lst for lst in lista_mod if
                        str(lst[2]).startswith("4") or
                        str(lst[2]).startswith("5")]
     dfModFilt1 = utils_modificatore(lista_mod_filt1)
+    missing_names = [name for name in list_players if name not in dfModFilt1.index]
+    if missing_names:
+        df_missing = pd.DataFrame({"Modificatore": [0.0] * len(missing_names),
+                                   "Giornate": [0] * len(missing_names)}, index=missing_names)
+        dfModFilt1 = pd.concat([dfModFilt1, df_missing])
 
     # Modificatore filtrato per quando è > 0
     lista_mod_filt2 = [lst for lst in lista_mod if lst[1] > 0]
     dfModFilt2 = utils_modificatore(lista_mod_filt2)
+    missing_names = [name for name in list_players if name not in dfModFilt2.index]
+    if missing_names:
+        df_missing = pd.DataFrame({"Modificatore": [0.0] * len(missing_names),
+                                   "Giornate": [0] * len(missing_names)}, index=missing_names)
+        dfModFilt2 = pd.concat([dfModFilt2, df_missing])
 
     # Modificatore filtrato per quando è = 0
     lista_mod_filt3 = [lst for lst in lista_mod if
@@ -176,6 +185,11 @@ def plot_tabelle_modificatore(lista_mod, giornate):
                        str(lst[2]).startswith("5")]
     lista_mod_filt3 = [lst for lst in lista_mod_filt3 if lst[1] == 0]
     dfModFilt3 = utils_modificatore(lista_mod_filt3)
+    missing_names = [name for name in list_players if name not in dfModFilt3.index]
+    if missing_names:
+        df_missing = pd.DataFrame({"Modificatore": [0.0] * len(missing_names),
+                                   "Giornate": [0] * len(missing_names)}, index=missing_names)
+        dfModFilt3 = pd.concat([dfModFilt3, df_missing])
     dfModFilt3 = dfModFilt3.sort_values(by="Giornate", ascending=False)
 
     fig = ps.make_subplots(rows=2, cols=2,
@@ -184,7 +198,7 @@ def plot_tabelle_modificatore(lista_mod, giornate):
                            subplot_titles=["Media del Modificatore per tutte le Giornate",
                                            "Media del Modificatore per le Giornate in cui la difesa è a 4 o 5",
                                            "Media del Modificatore per le Giornate in cui è > 0",
-                                           "Media del Modificatore per le Giornate in cui è = 0 e la difesa è a 4 o 5"])
+                                           "Numero di Giornate in cui il Modificatore è = 0 e la difesa è a 4 o 5"])
     fig.update_layout(title_text=f"Media del Modificatore aggiornato alla {giornate}° Giornata")
 
     fig = add_trace_modificatore(fig, dfMod, 1, 1)
