@@ -223,7 +223,7 @@ for x in range(0, len(dfDif)):
     dfDif.loc[x, "Giornata"] = x + 1
 
 
-for i in range(8):
+for i in range(len(playerName)):
     fig.add_trace(go.Scatter(x=dfDif["Giornata"], y=dfDif[playerName[i]],
                   name=playerName[i], mode="lines+markers"), row=1, col=1)
 
