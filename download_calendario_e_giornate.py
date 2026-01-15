@@ -79,18 +79,28 @@ for i in range(38):
     if response_get.status_code == 200:
 
         df = pd.read_excel(io.BytesIO(response_get.content), header=None)
-        # Verifica il contenuto della cella A1 (prima riga, prima colonna)
+
+        # Verifica il contenuto della cella A1
         if df.iloc[0, 0] == "File non disponibile.":
             break
         else:
-            # Salva il contenuto in un file, se necessario
+            # Crea la cartella se non esiste
+            os.makedirs("Input/Giornate", exist_ok=True)
+
+            # Sostituzioni PRIMA di salvare
+            df = df.replace({
+                "KEPHREDDO F.A": "PAL EXTRA FC",
+                "KEAN WE DANCE???": "KEAN SHIT"
+            }, regex=False)
+
             file_path = f"Input/Giornate/Formazioni_{alias_lega}_{i+1}_giornata.xlsx"
+
             if not os.path.exists(file_path):
-                with open(file_path, "wb") as file:
-                    file.write(response_get.content)
+                df.to_excel(file_path, index=False, header=False)
                 print(f"File salvato: {file_path}")
             else:
                 print(f"Il file esiste già: {file_path}")
+
     else:
         print(f"Errore nella richiesta: {response_get.status_code}")
         print(f"Dettagli: {response_get.text}")

@@ -64,21 +64,12 @@ def makePointsLists(listaGol):
 pd.options.mode.chained_assignment = None
 
 lega = "FantaRotary"
-playerName = ["Decimo",
-              "PAZzesco FC",
-              "El Pika Team",
-              "Kephreddo F.a",
-              "Berna Risk FC",
-              "Panita Traditore",
-              "KEAN WE DANCE???",
-              "No TORO No PARTY",
-              "Ti Faccio Nero FC",
-              "Giovane fuoriclasse"]
+df = pd.read_excel(f"Input\Calendario_{lega}.xlsx")
+playerName = (df.iloc[3:8, [0, 3]].values.flatten().tolist())
 
 playerExp = [0] * len(playerName)
 playerPoint = [0] * len(playerName)
 
-df = pd.read_excel(f"Input\Calendario_{lega}.xlsx")
 
 del df[df.columns[5]]
 df = df[2:]

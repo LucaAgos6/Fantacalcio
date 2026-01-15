@@ -11,17 +11,13 @@ from plot_tabelle import plot_tabelle_migliori_giocatori
 # Conta il numero di file salvati nella cartella Giornate
 giornate = len([f for f in os.listdir("Input/Giornate") if os.path.isfile(os.path.join("Input/Giornate", f))])
 competizione = "spritecalcio111"
-# Scirvi i nomi in maiuscolo
-player_name = ["DECIMO",
-              "PAZZESCO FC",
-              "EL PIKA TEAM",
-              "KEPHREDDO F.A",
-              "BERNA RISK FC",
-              "PANITA TRADITORE",
-              "KEAN WE DANCE???",
-              "NO TORO NO PARTY",
-              "TI FACCIO NERO FC",
-              "GIOVANE FUORICLASSE"]
+lega = "FantaRotary"
+
+# Leggi i nomi dei giocatori
+df = pd.read_excel(f"Input/Calendario_{lega}.xlsx")
+player_name = (df.iloc[3:8, [0, 3]].values.flatten().tolist())
+player_name = [str(x).upper() for x in player_name]
+
 ruoli = ["P", "D", "C", "A"]
 lista_voti = []
 lista_punti_modificatore = []
