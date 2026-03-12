@@ -11,10 +11,8 @@ from utils import utils_migliori_giocatori, add_trace_migliori_giocatori
 def plot_tabella_4sost_e_noform(lista_inserimento_formazione, giornata):
     df = pd.DataFrame(lista_inserimento_formazione, columns=["Giornata", "Fantagiocatore", "Inserimento Formazione"])
     df = df[df["Inserimento Formazione"].str.startswith("Recuperata", na=False)].reset_index(drop=True)
-    print(df)
     df_count = (df["Fantagiocatore"].value_counts().reset_index())
     df_count.columns = ["Fantagiocatore", "Conteggio"]
-    print(df_count)
 
     fig = ps.make_subplots(rows=1, cols=2,
                            specs=[[{"type": "table"}, {"type": "table"}]],
