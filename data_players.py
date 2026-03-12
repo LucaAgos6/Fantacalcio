@@ -4,7 +4,7 @@ import pandas as pd
 
 from plot_tabelle import plot_tabelle_giocatori_squadre, plot_tabelle_moduli
 from plot_tabelle import plot_tabelle_bonus_ruoli, plot_tabelle_modificatore
-from plot_tabelle import plot_tabelle_migliori_giocatori
+from plot_tabelle import plot_tabelle_migliori_giocatori, plot_tabella_4sost_e_noform
 
 # Import automatico dei file
 
@@ -21,6 +21,7 @@ player_name = [str(x).upper() for x in player_name]
 ruoli = ["P", "D", "C", "A"]
 lista_voti = []
 lista_punti_modificatore = []
+lista_inserimento_formazione = []
 print()
 
 # Restituisce NomePlayer, Ruolo, Nome, Squadra, Voto e Fantavoto del giocatore
@@ -41,6 +42,7 @@ for gior in range(1, giornate+1):
         # Voti Fantagiocatore di sinistra
         if row.iloc[0] in player_name:
 
+            count = 0
             for p in range(2, 13):
                 if df.iloc[i + p, 3] != "-" and df.iloc[i + p, 0] in ruoli:
                     lista_voti.append(player(row, df, i + p, 0, gior))
@@ -51,6 +53,7 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i + 15, 0, gior))
                     else:
                         lista_voti.append([gior, row.iloc[0], "P", "-", "-", 0, 0])
+                    count += 1
                 elif df.iloc[i + p, 0] == "D":
                     if df.iloc[i + 16, 3] != "-" and player(row, df, i + 16, 0, gior) not in lista_voti:
                         lista_voti.append(player(row, df, i + 16, 0, gior))
@@ -58,6 +61,7 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i + 17, 0, gior))
                     else:
                         lista_voti.append([gior, row.iloc[0], "D", "-", "-", 0, 0])
+                    count += 1
                 elif df.iloc[i + p, 0] == "C":
                     if df.iloc[i + 18, 3] != "-" and player(row, df, i + 18, 0, gior) not in lista_voti:
                         lista_voti.append(player(row, df, i + 18, 0, gior))
@@ -65,6 +69,7 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i + 19, 0, gior))
                     else:
                         lista_voti.append([gior, row.iloc[0], "C", "-", "-", 0, 0])
+                    count += 1
                 elif df.iloc[i + p, 0] == "A":
                     if df.iloc[i + 20, 3] != "-" and player(row, df, i + 20, 0, gior) not in lista_voti:
                         lista_voti.append(player(row, df, i + 20, 0, gior))
@@ -72,15 +77,22 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i + 21, 0, gior))
                     else:
                         lista_voti.append([gior, row.iloc[0], "A", "-", "-", 0, 0])
+                    count += 1
+            
+            if count > 3:
+                print(f"Attenzione: {count} giocatori trovati per {row.iloc[0]} nella giornata {gior}. Verificare i dati.")
 
             if df.iloc[i + 22, 0] == "Modificatore difesa":
                 lista_punti_modificatore.append([row.iloc[0], df.iloc[i + 22, 4], df.iloc[i + 1, 0]])
+                lista_inserimento_formazione.append([gior, row.iloc[0], df.iloc[i + 24, 0]])
             else:
                 lista_punti_modificatore.append([row.iloc[0], 0, df.iloc[i + 1, 0]])
+                lista_inserimento_formazione.append([gior, row.iloc[0], df.iloc[i + 23, 0]])
 
         # Voti Fantagiocatore di destra
         if row.iloc[6] in player_name:
 
+            count = 0
             for p in range(2, 13):
                 if df.iloc[i + p, 9] != "-" and df.iloc[i + p, 6] in ruoli:
                     lista_voti.append(player(row, df, i + p, 6, gior))
@@ -91,6 +103,7 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i + 15, 6, gior))
                     else:
                         lista_voti.append([gior, row.iloc[6], "P", "-", "-", 0, 0])
+                    count += 1
                 elif df.iloc[i + p, 6] == "D":
                     if df.iloc[i + 16, 9] != "-" and player(row, df, i + 16, 6, gior) not in lista_voti:
                         lista_voti.append(player(row, df, i + 16, 6, gior))
@@ -98,6 +111,7 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i + 17, 6, gior))
                     else:
                         lista_voti.append([gior, row.iloc[6], "D", "-", "-", 0, 0])
+                    count += 1
                 elif df.iloc[i + p, 6] == "C":
                     if df.iloc[i + 18, 9] != "-" and player(row, df, i + 18, 6, gior) not in lista_voti:
                         lista_voti.append(player(row, df, i + 18, 6, gior))
@@ -105,6 +119,7 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i + 19, 6, gior))
                     else:
                         lista_voti.append([gior, row.iloc[6], "C", "-", "-", 0, 0])
+                    count += 1
                 elif df.iloc[i + p, 6] == "A":
                     if df.iloc[i + 20, 9] != "-" and player(row, df, i + 20, 6, gior) not in lista_voti:
                         lista_voti.append(player(row, df, i + 20, 6, gior))
@@ -112,12 +127,17 @@ for gior in range(1, giornate+1):
                         lista_voti.append(player(row, df, i + 21, 6, gior))
                     else:
                         lista_voti.append([gior, row.iloc[6], "A", "-", "-", 0, 0])
+                    count += 1
+
+            if count > 3:
+                print(f"Attenzione: {count} giocatori trovati per {row.iloc[6]} nella giornata {gior}. Verificare i dati.")
 
             if df.iloc[i + 22, 6] == "Modificatore difesa":
                 lista_punti_modificatore.append([row.iloc[6], df.iloc[i + 22, 10], df.iloc[i + 1, 6]])
+                lista_inserimento_formazione.append([gior, row.iloc[6], df.iloc[i + 24, 6]])
             else:
                 lista_punti_modificatore.append([row.iloc[6], 0, df.iloc[i + 1, 6]])
-
+                lista_inserimento_formazione.append([gior, row.iloc[6], df.iloc[i + 23, 6]])
 
 df = pd.DataFrame(lista_voti, columns=["Giornata", "Fantagiocatore", "Ruolo", "Giocatore", "Squadra", "Voto", "Fantavoto"])
 
@@ -127,3 +147,4 @@ plot_tabelle_giocatori_squadre(df, giornate)
 plot_tabelle_bonus_ruoli(df, giornate)
 plot_tabelle_modificatore(lista_punti_modificatore, giornate)
 plot_tabelle_migliori_giocatori(df, giornate)
+plot_tabella_4sost_e_noform(lista_inserimento_formazione, giornate)

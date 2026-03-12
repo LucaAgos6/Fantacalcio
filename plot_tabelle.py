@@ -7,6 +7,38 @@ from utils import utils_modificatore, add_trace_modificatore
 from utils import utils_migliori_giocatori, add_trace_migliori_giocatori
 
 
+
+def plot_tabella_4sost_e_noform(lista_inserimento_formazione, giornata):
+    df = pd.DataFrame(lista_inserimento_formazione, columns=["Giornata", "Fantagiocatore", "Inserimento Formazione"])
+    df = df[df["Inserimento Formazione"].str.startswith("Recuperata", na=False)].reset_index(drop=True)
+    print(df)
+    df_count = (df["Fantagiocatore"].value_counts().reset_index())
+    df_count.columns = ["Fantagiocatore", "Conteggio"]
+    print(df_count)
+
+    fig = ps.make_subplots(rows=1, cols=2,
+                           specs=[[{"type": "table"}, {"type": "table"}]],
+                           subplot_titles=["Volte che un Fantagiocatore non ha messo la Formazione",
+                                           "Dettaglio delle Giornate"])
+    fig.update_layout(title_text=f"Fantagiocatori che non hanno messo la Formazione aggiornato alla {giornata}° Giornata")
+
+    fig.add_trace(go.Table(header=dict(values=("Fantagiocatore", "N° Giornate"),
+                                       fill_color="paleturquoise",
+                                       line_color="darkslategray"),
+                           cells=dict(values=[df_count["Fantagiocatore"][:21], 
+                                              df_count["Conteggio"][:21]])), row=1, col=1)
+    fig.add_trace(go.Table(header=dict(values=("Giornata", "Fantagiocatore", "Inserimento Formazione"),
+                                       fill_color="paleturquoise",
+                                       line_color="darkslategray"),
+                           cells=dict(values=[df["Giornata"][:21], 
+                                              df["Fantagiocatore"][:21], 
+                                              df["Inserimento Formazione"][:21]])), row=1, col=2)
+    fig.show()
+
+    print("Plot delle tabelle di inserimento della formazione\n")
+
+
+
 def plot_tabelle_giocatori_squadre(df, giornata):
     dfGiocatori = df.groupby("Giocatore")["Giornata"].count().sort_values(ascending=False)
     dfGiocatori = pd.DataFrame(dfGiocatori)
