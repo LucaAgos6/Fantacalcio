@@ -119,6 +119,13 @@ def plot_tabelle_moduli(giornate, competizione, player_name):
             tabella.append([key, value])
 
         df = pd.DataFrame(tabella)
+
+        # Check sul corretto numero di giornate
+        somma = df[df.columns[1]].sum()
+        if somma != giornate:
+            print(f"\nErrore: la somma ({somma}) non è uguale alle giornate ({giornate}) del player {player}. Verificare i dati.\n")
+            exit()
+
         dftot = pd.concat([dftot, df])
         fig.add_trace(go.Table(header=dict(values=("Modulo", "N° Giornate"),
                                            fill_color="paleturquoise",
