@@ -90,7 +90,8 @@ for i in range(38):
             # Sostituzioni PRIMA di salvare
             df = df.replace({
                 "KEPHREDDO F.A": "PAL EXTRA FC",
-                "KEAN WE DANCE???": "KEAN SHIT"
+                "KEAN WE DANCE???": "LOLLOISBACK",
+                "KEAN SHIT": "LOLLOISBACK"
             }, regex=False)
 
             file_path = f"Input/Giornate/Formazioni_{alias_lega}_{i+1}_giornata.xlsx"
